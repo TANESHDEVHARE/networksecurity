@@ -19,5 +19,5 @@ class NetworkModel:
             y_hat = self.model.predict(x_transformed)
             return y_hat
         except Exception as e:
-            raise NetworkSecurityException(e,sys) from e
+            raise NetworkSecurityException(e,sys) 
         
