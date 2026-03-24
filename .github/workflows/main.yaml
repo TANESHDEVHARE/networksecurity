@@ -108,19 +108,23 @@ jobs:
           echo "Pulling: $IMAGE_URI"
           docker pull $IMAGE_URI
 
-      #- name : Stop and remove container if running
-      #  run: |
-      #    docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest
+      - name: Stop and remove old container
+        run: |
+          docker ps -q --filter "name=networksecurity" | grep -q . && docker stop networksecurity && docker rm -fv networksecurity || true
 
       - name: Run Docker Image to serve users
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
         run: |
+          # Clean variables
           ECR_REGISTRY=$(echo $ECR_REGISTRY | tr -d '\n')
           ECR_REPOSITORY=$(echo $ECR_REPOSITORY | tr -d '\n')
 
+          # Build image URI (THIS WAS MISSING)
           IMAGE_URI=$(printf "%s/%s:latest" "$ECR_REGISTRY" "$ECR_REPOSITORY")
+
+          echo "Running: $IMAGE_URI"
 
           docker run -d -p 8080:8080 \
             --ipc="host" \
