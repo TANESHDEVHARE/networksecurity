@@ -107,3 +107,7 @@ async def predict_route(request: Request, file: UploadFile = File(...)):
         import traceback
         traceback.print_exc()
         raise NetworkSecurityException(e, sys)
+
+
+if __name__=="__main__":
+    app_run(app,host="localhost",port=8000)
