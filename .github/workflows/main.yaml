@@ -63,6 +63,11 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
           IMAGE_TAG: latest
         run: |
+          # Clean variables (IMPORTANT)
+          ECR_REGISTRY=$(echo $ECR_REGISTRY | tr -d '\n')
+          ECR_REPOSITORY=$(echo $ECR_REPOSITORY | tr -d '\n')
+          IMAGE_TAG=$(echo $IMAGE_TAG | tr -d '\n')
+
           IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "Building: $IMAGE_URI"
 
